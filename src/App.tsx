@@ -42,12 +42,12 @@ export default function App() {
       </video>
 
       {/* Soft Radial Dark Glow for text readability */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150vw] h-[100vh] sm:w-[800px] sm:h-[600px] bg-black/30 blur-[100px] rounded-[100%] pointer-events-none z-0" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150vw] h-[100vh] sm:w-[800px] sm:h-[600px] bg-black/50 blur-[100px] rounded-[100%] pointer-events-none z-0" />
 
       <Navbar />
       <main className="max-w-4xl w-full text-center z-10 relative flex flex-col items-center mt-24 sm:mt-10 md:mt-14 px-2 sm:px-4">
         <TrustedBadge />
-        <h1 className="text-5xl sm:text-6xl md:text-[4.5rem] leading-[1.1] md:leading-[60px] tracking-tight text-white flex flex-col items-center text-center mt-4 sm:mt-2 mb-6 sm:mb-8">
+        <h1 className="text-5xl sm:text-6xl md:text-[4.5rem] lg:text-[5.5rem] leading-[1.1] md:leading-[60px] tracking-tight text-white flex flex-col items-center text-center mt-4 sm:mt-2 mb-6 sm:mb-8">
           <AnimatedLetters 
             text="Your AI agent" 
             className="font-sans font-medium mb-1 sm:mb-2 text-white justify-center" 
