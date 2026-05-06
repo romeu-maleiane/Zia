@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform, useMotionTemplate } from 'motion/react';
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import { ArrowRight } from 'lucide-react';
 
 function ScrollPhrase({ 
@@ -72,27 +72,64 @@ export function ScrollRevealVideo() {
 
   // 🔥 Expansão do container (ocorre de 0 a 0.15 do scroll)
   const width = useTransform(scrollYProgress, [0, 0.15], ["90%", "100%"]);
-  const height = useTransform(scrollYProgress, [0, 0.15], ["60vh", "100vh"]);
+  const height = useTransform(scrollYProgress, [0, 0.15], ["75vh", "100vh"]);
   const borderRadius = useTransform(scrollYProgress, [0, 0.15], ["28px", "0px"]);
   const scale = useTransform(scrollYProgress, [0, 0.15], [0.96, 1]);
 
   // 🔥 O progresso do texto inicia APENAS após o container preencher a tela (0.15+)
   const textProgress = useTransform(scrollYProgress, [0.15, 1], [0, 1]);
 
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (!videoRef.current) return;
+
+    const video = videoRef.current;
+    video.defaultMuted = true;
+    video.muted = true;
+
+    // Try to play immediately
+    const attemptPlay = () => {
+      video.play().catch(error => {
+        console.error("Video autoplay failed:", error);
+      });
+    };
+    
+    // Also try playing when it comes into view (some browsers require this to allow autoplay)
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            attemptPlay();
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(video);
+    attemptPlay();
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   return (
-    <section ref={containerRef} className="relative h-[650vh] w-full bg-[#0A0A0A]">
+    <section ref={containerRef} className="relative h-[650vh] w-full bg-[#0A0A0A] -mt-20 sm:-mt-32 z-20">
       <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
 
         <motion.div
           style={{ width, height, borderRadius, scale }}
-          className="relative overflow-hidden flex flex-col items-center justify-center"
+          className="relative overflow-hidden flex flex-col items-center justify-center bg-black"
         >
           <video
+            ref={videoRef}
             autoPlay
             loop
             muted
             playsInline
-            className="absolute inset-0 w-full h-full object-cover opacity-60"
+            className="absolute inset-0 w-full h-full object-cover opacity-60 pointer-events-none"
           >
             <source src="https://res.cloudinary.com/dsifzbr67/video/upload/v1777942144/Hero_videos_A_man_with_short_brown_hair_and_a_blue_shirt_3LAOMfnu_to5kq1.mp4" type="video/mp4" />
           </video>
@@ -103,7 +140,7 @@ export function ScrollRevealVideo() {
           <div className="relative z-10 flex flex-col items-center justify-center text-center px-4 max-w-3xl mx-auto h-full w-full">
 
             <span className="text-[10px] sm:text-[12px] font-bold tracking-[0.2em] uppercase text-white/80 mb-5">
-              We believe in
+              Meet your new AI
             </span>
 
             {/* 🔥 ZONA MENOR DA ANIMAÇÃO */}
@@ -114,31 +151,31 @@ export function ScrollRevealVideo() {
               <ScrollPhrase 
                 progress={textProgress} 
                 start={0} end={0.28} 
-                text={<>Backing founders who <span className="font-serif italic text-white">bend reality.</span></>} 
+                text={<>Automate your workflow with <span className="font-serif italic text-white">&nbsp;intelligent AI.</span></>} 
               />
 
               <ScrollPhrase 
                 progress={textProgress} 
                 start={0.18} end={0.46} 
-                text={<>People who think impossible is an opinion.</>} 
+                text={<>Your autonomous <span className="font-serif italic text-white">&nbsp;problem solver.</span></>} 
               />
 
               <ScrollPhrase 
                 progress={textProgress} 
                 start={0.36} end={0.64} 
-                text={<>Choosing courage over comfort.</>} 
+                text={<>Execute tasks with <span className="font-serif italic text-white">&nbsp;mind-blowing </span> &nbsp;speed.</>} 
               />
 
               <ScrollPhrase 
                 progress={textProgress} 
                 start={0.54} end={0.82} 
-                text={<>Refusing to accept the world that was given to us.</>} 
+                text={<>Reclaim your time for <span className="font-serif italic text-white">&nbsp;meaningful </span> &nbsp;work.</>} 
               />
 
               <ScrollPhrase 
                 progress={textProgress} 
                 start={0.72} end={1.0} 
-                text="Longevity over hype." 
+                text={<>Not just <span className="font-serif italic text-white">&nbsp;another chatbot.</span></>}
                 isLast={true} 
               />
             </div>
@@ -146,7 +183,7 @@ export function ScrollRevealVideo() {
             <button 
               className="inline-flex items-center gap-2 rounded-full bg-white/10 hover:bg-white/15 border border-white/20 backdrop-blur-md px-5 py-3 text-sm font-medium text-white transition-all"
             >
-              Read our manifesto <ArrowRight className="w-4 h-4" />
+              See it in action <ArrowRight className="w-4 h-4" />
             </button>
           </div>
         </motion.div>
