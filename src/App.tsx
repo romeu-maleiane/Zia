@@ -11,6 +11,10 @@ import { AnimatedLetters } from './components/AnimatedLetters';
 import { BlurRevealText } from './components/BlurRevealText';
 import { FeatureCards } from './components/FeatureCards';
 import { ScrollRevealVideo } from './components/ScrollRevealVideo';
+import { StatsSection } from './components/StatsSection';
+import { TestimonialSection } from './components/TestimonialSection';
+import { PricingSection } from './components/PricingSection';
+import { CtaFooterSection } from './components/CtaFooterSection';
 
 import { useEffect } from 'react';
 import Lenis from 'lenis';
@@ -136,6 +140,14 @@ export default function App() {
       </div>
       
       <ScrollRevealVideo />
+      
+      <StatsSection />
+      
+      <TestimonialSection />
+      
+      <PricingSection />
+      
+      <CtaFooterSection />
     </div>
   );
 }

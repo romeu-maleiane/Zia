@@ -2,11 +2,17 @@ import { motion } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
 import { useState } from 'react';
 
-export function CTAButton() {
+export interface CTAButtonProps {
+  text?: string;
+  className?: string;
+  dark?: boolean; // Added optional dark mode text invert logic if needed? We will just pass text.
+}
+
+export function CTAButton({ text = "Get Started", className = "" }: CTAButtonProps) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <div className="flex justify-center">
+    <div className={`flex justify-center ${className}`}>
       <motion.button
         className="relative flex items-center rounded-[32px] bg-[#111111] p-1.5 shadow-[0_8px_24px_-8px_rgba(0,0,0,0.5)] border border-white/5 overflow-hidden"
         onMouseEnter={() => setIsHovered(true)}
@@ -34,7 +40,7 @@ export function CTAButton() {
           }}
           transition={{ duration: 0.25, ease: 'easeInOut' }}
         >
-          Get Started
+          {text}
         </motion.span>
 
         {/* Icon */}

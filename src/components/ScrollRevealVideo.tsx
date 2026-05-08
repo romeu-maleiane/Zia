@@ -70,11 +70,11 @@ export function ScrollRevealVideo() {
     offset: ["start start", "end end"]
   });
 
-  // 🔥 Expansão do container (ocorre de 0 a 0.15 do scroll)
-  const width = useTransform(scrollYProgress, [0, 0.15], ["90%", "100%"]);
-  const height = useTransform(scrollYProgress, [0, 0.15], ["75vh", "100vh"]);
-  const borderRadius = useTransform(scrollYProgress, [0, 0.15], ["28px", "0px"]);
-  const scale = useTransform(scrollYProgress, [0, 0.15], [0.96, 1]);
+  // 🔥 Expansão do container (ocorre de 0 a 0.15) e contração no final (0.85 a 1.0)
+  const width = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], ["90%", "100%", "100%", "90%"]);
+  const height = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], ["75vh", "100vh", "100vh", "75vh"]);
+  const borderRadius = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], ["28px", "0px", "0px", "28px"]);
+  const scale = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [0.96, 1, 1, 0.96]);
 
   // 🔥 O progresso do texto inicia APENAS após o container preencher a tela (0.15+)
   const textProgress = useTransform(scrollYProgress, [0.15, 1], [0, 1]);
@@ -129,23 +129,24 @@ export function ScrollRevealVideo() {
             loop
             muted
             playsInline
-            className="absolute inset-0 w-full h-full object-cover opacity-60 pointer-events-none"
+            className="absolute inset-0 w-full h-full object-cover pointer-events-none"
           >
             <source src="https://res.cloudinary.com/dsifzbr67/video/upload/v1777942144/Hero_videos_A_man_with_short_brown_hair_and_a_blue_shirt_3LAOMfnu_to5kq1.mp4" type="video/mp4" />
           </video>
 
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10" />
+          {/* Soft Radial Dark Glow for text readability */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150vw] h-[100vh] sm:w-[800px] sm:h-[600px] bg-black/50 blur-[100px] rounded-[100%] pointer-events-none" />
 
           {/* 🔥 CONTAINER MENOR DA ANIMAÇÃO */}
           <div className="relative z-10 flex flex-col items-center justify-center text-center px-4 max-w-3xl mx-auto h-full w-full">
 
-            <span className="text-[10px] sm:text-[12px] font-bold tracking-[0.2em] uppercase text-white/80 mb-5">
+            <span className="text-xs sm:text-base font-bold tracking-[0.2em] uppercase text-white mb-4">
               Meet your new AI
             </span>
 
             {/* 🔥 ZONA MENOR DA ANIMAÇÃO */}
             <div 
-              className="relative w-full h-[190px] flex items-center justify-center mb-10"
+              className="relative w-full h-[190px] flex items-center justify-center mb-9"
               style={{ perspective: "1400px", perspectiveOrigin: "50% 50%" }}
             >
               <ScrollPhrase 

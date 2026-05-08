@@ -5,9 +5,17 @@ interface BlurRevealTextProps {
   text: string;
   className?: string;
   delay?: number;
+  highlightWords?: string[];
+  highlightClassName?: string;
 }
 
-export function BlurRevealText({ text, className = "", delay = 0 }: BlurRevealTextProps) {
+export function BlurRevealText({ 
+  text, 
+  className = "", 
+  delay = 0,
+  highlightWords = [],
+  highlightClassName = ""
+}: BlurRevealTextProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-15%" });
 
@@ -42,8 +50,11 @@ export function BlurRevealText({ text, className = "", delay = 0 }: BlurRevealTe
       animate={isInView ? "visible" : "hidden"}
       className={`inline-flex flex-wrap ${className}`}
     >
-      {words.map((word, wordIndex) => (
-        <span key={wordIndex} className="inline-flex whitespace-pre">
+      {words.map((word, wordIndex) => {
+        // Remove punctuation to check if the exact word matches, or just match exactly.
+        const isHighlighted = highlightWords.includes(word) || highlightWords.includes(word.replace(/[^a-zA-Z]/g, ''));
+        return (
+        <span key={wordIndex} className={`inline-flex whitespace-pre ${isHighlighted ? highlightClassName : ""}`}>
           {Array.from(word).map((letter, letterIndex) => (
             <motion.span
               key={letterIndex}
@@ -58,7 +69,7 @@ export function BlurRevealText({ text, className = "", delay = 0 }: BlurRevealTe
             <span className="inline-block">&nbsp;</span>
           )}
         </span>
-      ))}
+      )})}
     </motion.span>
   );
 }
