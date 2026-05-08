@@ -38,11 +38,12 @@ export function StatsSection() {
     <section className="relative pt-32 pb-16 lg:pb-24 bg-[#0A0A0A] text-white overflow-hidden">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-15 md:mb-24">
-          <h3 className="text-4xl md:text-5xl lg:text-5xl font-medium tracking-tight mb-8">
+          <h3 className="text-4xl md:text-5xl lg:text-5xl font-medium tracking-tight mb-8 flex justify-center">
             <BlurRevealText 
               text="From manual tasks to autonomous scale." 
               highlightWords={["autonomous", "scale."]}
               highlightClassName="font-serif italic text-white/90"
+              className="justify-center text-center"
             />
           </h3>
           <motion.p 
